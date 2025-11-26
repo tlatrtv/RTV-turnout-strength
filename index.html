@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>ROCK THE VOTE: PROVEN IMPACT & GENERATION GAP SOLUTION</title>
+  <style>
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:#020617;
+      color:#e5e7eb;
+    }
+    .header{
+      padding:24px 32px;
+      background:linear-gradient(135deg,#7e22ce,#0891b2);
+      color:white;
+    }
+    .header-text h1{
+      margin:0 0 4px;
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:0.04em;
+    }
+    .header-text p{
+      margin:0;
+      font-size:16px;
+      opacity:.95;
+    }
+
+    .content{
+      padding:24px 32px 40px;
+    }
+    .description h2{
+      margin:0 0 4px;
+      font-size:20px;
+      font-weight:700;
+      text-transform:uppercase;
+    }
+    .description p{
+      margin:0;
+      font-size:14px;
+      color:#d1d5db;
+      line-height:1.6;
+    }
+
+    .chart-wrapper{
+      margin-top:16px;
+      padding:16px;
+      background:#0b1220;
+      border-radius:12px;
+      box-shadow:0 20px 40px rgba(15,23,42,.8);
+      opacity:0;
+      transform:translateY(8px);
+      transition:opacity .7s ease, transform .7s ease;
+    }
+
+    .chart-inner{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+    .chart-panel{
+      min-height:380px;
+    }
+    .chart-footer{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      align-items:flex-start;
+    }
+
+    .insight-panel{
+      flex:1 1 260px;
+      padding:14px 16px;
+      border-radius:10px;
+      background:#1e293b;
+      border:1px solid #334155;
+      font-size:14px;
+      line-height:1.5;
+    }
+    .insight-panel h3{
+      margin:0 0 6px;
+      font-size:16px;
+      font-weight:700;
+      color:#93c5fd;
+    }
+    .insight-panel p{
+      margin:0;
+    }
+    .insight-panel strong{
+      color:#fcd34d;
+    }
+
+    .controls-panel{
+      flex:1 1 260px;
+      padding:12px 14px;
+      border-radius:10px;
+      background:#020617;
+      border:1px solid #1f2937;
+      font-size:12px;
+    }
+    .controls-row{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    #play-button{
+      border:none;
+      border-radius:999px;
+      padding:8px 16px;
+      font-size:13px;
+      cursor:pointer;
+      background:linear-gradient(135deg,#7e22ce,#0891b2);
+      color:white;
+      font-weight:600;
+      box-shadow:0 8px 18px rgba(0,0,0,.5);
+    }
+    #play-button:hover{
+      filter:brightness(1.05);
+    }
+    #year-slider{
+      flex:1;
+    }
+    .controls-meta{
+      font-size:11px;
+      color:#9ca3af;
+    }
+    .controls-meta span{
+      font-weight:500;
+      color:#e5e7eb;
+    }
+
+    .context-box{
+      margin-top:24px;
+      padding:18px 22px;
+      border-radius:10px;
+      background:#1e293b;
+      border:1px solid #334155;
+      font-size:14px;
+      line-height:1.5;
+      opacity:0;
+      transform:translateY(8px);
+      transition:opacity .7s ease, transform .7s ease;
+    }
+    .context-box strong{
+      color:#34d399;
+    }
+    .context-box p{
+      margin:0 0 10px;
+    }
+    .context-box p:last-child{
+      margin-bottom:0;
+    }
+
+    .disclaimer{
+      margin-top:16px;
+      font-size:10px;
+      color:#6b7280;
+    }
+    .disclaimer p{
+      margin:0;
+    }
+
+    .revealed{
+      opacity:1 !important;
+      transform:translateY(0) !important;
+    }
+  </style>
+  <script type="text/javascript">
+    window.PlotlyConfig = { MathJaxConfig: 'local' };
+  </script>
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+  <div class="header">
+    <div class="header-text">
+      <h1>ROCK THE VOTE: PROVEN IMPACT & GENERATION GAP SOLUTION</h1>
+      
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="description">
+      <h2>THE RTV SUCCESS DELTA: A PROVEN ROI FOR YOUTH ENGAGEMENT</h2>
+      <p>
+        National 18–29 turnout consistently lags 30+ voters by 15-25 points. Rock the Vote's programmatic Lift shows that targeted, cultural outreach is a proven, high-ROI strategy that significantly closes this gap, demonstrating repeatable success across multiple cycles.
+      </p>
+      <p>
+        Scaling RTV's model, which consistently delivers youth turnout in the 70–78% range, is the most effective way to realize the full potential of the youth vote and secure long-term civic engagement.
+      </p>
+    </div>
+
+    <div class="chart-wrapper" id="chart-wrapper">
+      <div class="chart-inner">
+        <div class="chart-panel">
+          <div id="turnout-chart" style="height:100%; width:100%; min-height:380px;"></div>
+        </div>
+
+        <div class="chart-footer">
+          <div class="insight-panel">
+            <h3>RTV Impact: Closing the Gap in <span id="detail-year">2024</span></h3>
+            <p>
+              The <strong>National Youth Turnout</strong> (18–29) was <strong><span id="detail-young">47%</span></strong>. This lags the <strong>Older Voter Benchmark</strong> (30+) of <strong><span id="detail-older">68%</span></strong> by <strong><span id="detail-gap">21 percentage points</span></strong>.
+            </p>
+            <p style="margin-top:8px;">
+              <strong>RTV's Solution:</strong> Young voters engaged by Rock the Vote achieved <strong><span id="detail-rock">77%</span></strong> turnout, creating a <strong><span id="detail-lift">30 percentage point lift</span></strong> over the national 18–29 average.
+            </p>
+          </div>
+
+          <div class="controls-panel">
+            <div class="controls-row">
+              <button id="play-button">Play timeline</button>
+              <input type="range" id="year-slider" min="0" max="4" step="1" value="4" />
+            </div>
+            <div class="controls-meta">
+              <div>Selected year: <span id="selected-year-label">2024</span></div>
+              <div>Tip: Hover the chart or drag the slider to move along the timeline.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="context-box" id="context-box">
+      <p>
+        <strong>Note:</strong> This chart tracks presidential election turnout since 2008 for voters 30+ (The Benchmark) and 18–29-year-olds nationally (The Challenge). RTV's Programmatic Lift displays the consistent, high-performing turnout achieved each cycle.
+      </p>
+    </div>
+
+    <div class="disclaimer">
+      <p>Turnout rates represent the share of each age group that voted in presidential elections. </p>
+      <p>18–29 source: CIRCLE. 30+ source: Census. RTV turnout figures: Verified by Catalist (TBD).</p>
+    </div>
+  </div>
+
+  <script>
+    // Data for 2008–2024
+    const years = [2008, 2012, 2016, 2020, 2024];
+    const turnoutOver30 = [0.67, 0.66, 0.65, 0.65, 0.68];
+    const turnout1829 = [0.51, 0.45, 0.46, 0.50, 0.47];
+    const rockTheVote = [0.74, 0.75, 0.73, 0.78, 0.77];
+
+    const gap = turnoutOver30.map((v, i) => v - turnout1829[i]); // 30+ vs 18-29 gap
+    const rtvLift = rockTheVote.map((v, i) => v - turnout1829[i]); // RTV vs 18-29 Lift (The Delta)
+    const latestIndex = years.length - 1;
+
+    function baseSizes(len, highlightIndex, base, highlight) {
+      return Array.from({ length: len }, (_, i) => (i === highlightIndex ? highlight : base));
+    }
+
+    // Baseline (zero) for youth fill
+    const traceBaseline = {
+      x: years,
+      y: [0, 0, 0, 0, 0],
+      type: "scatter",
+      mode: "lines",
+      line: { color: "transparent" },
+      hoverinfo: "skip",
+      showlegend: false
+    };
+
+    // 18–29 national with teal fill down to zero (The Challenge)
+    const trace1829 = {
+      x: years,
+      y: turnout1829,
+      type: "scatter",
+      mode: "lines+markers",
+      name: "National Youth Turnout (18–29)",
+      line: { color: "#22d3ee", shape: "spline", width: 2.5 },
+      marker: { color: "#22d3ee", size: baseSizes(years.length, latestIndex, 7, 10) },
+      fill: "tonexty",
+      fillcolor: "rgba(34,211,238,0.15)",
+      hovertemplate: "%{y:.0%}<extra></extra>"
+    };
+
+    // Rock the Vote line (The Solution)
+    const traceRTV = {
+      x: years,
+      y: rockTheVote,
+      type: "scatter",
+      mode: "lines+markers",
+      name: "RTV Program-Engaged Youth",
+      line: { color: "#a855f7", shape: "spline", width: 4.0 }, /* THICKER LINE */
+      marker: {
+        color: "#fcd34d", /* YELLOW MARKER */
+        line: { color: "#a855f7", width: 2.0 },
+        size: baseSizes(years.length, latestIndex, 10, 14) /* LARGER MARKER */
+      },
+      hovertemplate: "%{y:.0%}<extra></extra>"
+    };
+    
+    // RTV Programmatic Lift (The Delta) - Fill down to 18-29
+    const traceRTVLift = {
+      x: years,
+      y: rockTheVote,
+      type: "scatter",
+      mode: "lines",
+      name: "RTV Programmatic Lift",
+      line: { color: "transparent" },
+      fill: "tonexty",
+      fillcolor: "rgba(168,85,247,0.30)", /* BOLDER PURPLE FILL */
+      showlegend: false,
+      hovertemplate: "RTV Lift: %{y:.0%}<extra></extra>",
+      hoverinfo: "skip"
+    };
+
+
+    // Over 30 subtle line (The Benchmark)
+    const traceOver30 = {
+      x: years,
+      y: turnoutOver30,
+      type: "scatter",
+      mode: "lines+markers",
+      name: "Older Voters (30+ Benchmark)",
+      line: { color: "#9ca3af", shape: "spline", width: 1.5, dash: "dot" },
+      marker: { color: "#9ca3af", size: baseSizes(years.length, latestIndex, 6, 8) },
+      opacity: 0.7,
+      hovertemplate: "%{y:.0%}<extra></extra>"
+    };
+
+    const layout = {
+      font: {
+        color: "#e5e7eb",
+        family: "system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI'",
+        size: 13 /* Larger font in chart */
+      },
+      hovermode: "x unified",
+      legend: { orientation: "h", x: 0, y: 1.15, font: { size: 13 } },
+      margin: { b: 60, l: 60, r: 20, t: 10 },
+      paper_bgcolor: "#0b1220", /* Matches wrapper background */
+      plot_bgcolor: "#0b1220",
+      xaxis: {
+        dtick: 4,
+        gridcolor: "#334155",
+        tickmode: "linear",
+        title: { text: "Presidential Election Year" }
+      },
+      yaxis: {
+        dtick: 0.2,
+        tickformat: ".0%",
+        range: [0, 1],
+        gridcolor: "#334155",
+        title: { text: "Turnout Rate (0% to 100%)" }
+      },
+      hoverlabel: {
+        bgcolor: "#020617",
+        bordercolor: "#4b5563",
+        font: { size: 12 }
+      }
+    };
+
+    const config = {
+      displaylogo: false,
+      responsive: true,
+      modeBarButtonsToRemove: [
+        "zoom2d",
+        "lasso2d",
+        "select2d",
+        "autoScale2d",
+        "hoverCompareCartesian",
+        "hoverClosestCartesian"
+      ]
+    };
+
+    const chartDiv = document.getElementById("turnout-chart");
+
+    // Order changed to ensure RTV Lift fills down to 18-29, and RTV line is on top
+    Plotly.newPlot(chartDiv, [traceBaseline, trace1829, traceRTVLift, traceRTV, traceOver30], layout, config).then(function () {
+      setupInteractions();
+    });
+
+    function setupInteractions() {
+      const yearSlider = document.getElementById("year-slider");
+      const playButton = document.getElementById("play-button");
+      const selectedYearLabel = document.getElementById("selected-year-label");
+
+      const detailYear = document.getElementById("detail-year");
+      const detailYoung = document.getElementById("detail-young");
+      const detailOlder = document.getElementById("detail-older");
+      const detailGap = document.getElementById("detail-gap");
+      const detailRock = document.getElementById("detail-rock");
+      const detailLift = document.getElementById("detail-lift");
+
+
+      let isPlaying = false;
+      let playInterval = null;
+
+      function formatPct(v) {
+        return Math.round(v * 100);
+      }
+
+      function gapLabel(i) {
+        return Math.round(gap[i] * 100) + " percentage points";
+      }
+
+      function liftLabel(i) {
+        return Math.round(rtvLift[i] * 100) + " percentage point lift";
+      }
+
+      function updateDetailForIndex(idx) {
+        const year = years[idx];
+        detailYear.textContent = year;
+        selectedYearLabel.textContent = year;
+
+        detailYoung.textContent = formatPct(turnout1829[idx]) + "%";
+        detailOlder.textContent = formatPct(turnoutOver30[idx]) + "%";
+        detailGap.textContent = gapLabel(idx);
+        detailRock.textContent = formatPct(rockTheVote[idx]) + "%";
+        detailLift.textContent = liftLabel(idx);
+      }
+
+      function updateHighlight(idx) {
+        const sizes1829 = baseSizes(years.length, idx, 7, 10);
+        const sizesRTV = baseSizes(years.length, idx, 10, 14);
+        const sizesOver30 = baseSizes(years.length, idx, 6, 8);
+
+        // trace indices: 0 baseline, 1 = 18–29, 2 = RTV Lift (Fill), 3 = RTV Line, 4 = over 30
+        Plotly.restyle(chartDiv, { "marker.size": [sizes1829] }, [1]);
+        Plotly.restyle(chartDiv, { "marker.size": [sizesRTV] }, [3]);
+        Plotly.restyle(chartDiv, { "marker.size": [sizesOver30] }, [4]);
+      }
+
+      function setActiveYear(idx) {
+        yearSlider.value = idx;
+        updateDetailForIndex(idx);
+        updateHighlight(idx);
+      }
+
+      setActiveYear(latestIndex);
+
+      yearSlider.addEventListener("input", function (e) {
+        const idx = parseInt(e.target.value, 10);
+        setActiveYear(idx);
+      });
+
+      chartDiv.on("plotly_hover", function (data) {
+        if (!data || !data.points || !data.points.length) return;
+        const point = data.points[0];
+        const idx = years.indexOf(point.x);
+        if (idx >= 0) {
+          setActiveYear(idx);
+        }
+      });
+
+      function stepPlayback() {
+        let idx = parseInt(yearSlider.value, 10);
+        idx = (idx + 1) % years.length;
+        setActiveYear(idx);
+      }
+
+      playButton.addEventListener("click", function () {
+        if (!isPlaying) {
+          isPlaying = true;
+          playButton.textContent = "Pause";
+          playInterval = setInterval(stepPlayback, 1400);
+        } else {
+          isPlaying = false;
+          playButton.textContent = "Play timeline";
+          clearInterval(playInterval);
+        }
+      });
+
+      const chartWrapper = document.getElementById("chart-wrapper");
+      const contextBox = document.getElementById("context-box");
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("revealed");
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      if (chartWrapper) observer.observe(chartWrapper);
+      if (contextBox) observer.observe(contextBox);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const wrapper = document.getElementById("chart-wrapper");
+      const contextBox = document.getElementById("context-box");
+      if (wrapper) wrapper.classList.add("revealed");
+      if (contextBox) contextBox.classList.add("revealed");
+    });
+  </script>
+</body>
+</html>
